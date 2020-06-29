@@ -15,6 +15,10 @@ using Microsoft.Extensions.Logging;
 using DatingAppApi.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Diagnostics;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+
 using System.Text;
 
 namespace DatingAppApi
@@ -34,7 +38,7 @@ namespace DatingAppApi
             services.AddDbContext<DataContext>(x =>
         {
             x.UseSqlite("Data Source=C:\\Development\\DatingAppApi\\mydb.db;");
-        });
+        })        ;
             services.AddControllers();
             services.AddCors();
             services.AddScoped<IAuthRepository,AuthRepository>();
@@ -53,6 +57,16 @@ namespace DatingAppApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+            }else{
+                app.UseExceptionHandler(builders=>{
+                    builders.Run(async context=>{
+                        context.Response.StatusCode=(int)HttpStatusCode.InternalServerError;
+                        var error=context.Features.Get<IExceptionHandlerFeature>();
+                        if(error!=null){
+                            await context.Response.WriteAsync(error.Error.Message);
+                        }
+                    });
+                });
             }
 
            // app.UseHttpsRedirection();
