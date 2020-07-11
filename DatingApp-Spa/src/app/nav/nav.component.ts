@@ -16,7 +16,7 @@ model:any={};
   }
   login(){
     this.authService.login(this.model).subscribe(next=>{this.alertSvc.success('successfully logged in')},
-    error=>{this.alertSvc.error(error)},()=>{this.router.navigate(['/messages']);});
+    error=>{this.alertSvc.error(error)},()=>{this.router.navigate(['/members-list']);});
   }
   loggedin(){
     return this.authService.loggedin();

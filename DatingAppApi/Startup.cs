@@ -20,6 +20,7 @@ using System.Net;
 using Microsoft.AspNetCore.Http;
 
 using System.Text;
+using AutoMapper;
 
 namespace DatingAppApi
 {
@@ -40,8 +41,10 @@ namespace DatingAppApi
             x.UseSqlite("Data Source=C:\\Development\\DatingAppApi\\mydb.db;");
         })        ;
             services.AddControllers();
+            services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddCors();
             services.AddScoped<IAuthRepository,AuthRepository>();
+            services.AddScoped<IDatingRepository,DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(
                 options=>{options.TokenValidationParameters=new TokenValidationParameters{
                     ValidateIssuerSigningKey=true,

@@ -18,10 +18,11 @@ namespace DatingAppApi.Repository
 
         public async Task<User> Logging(string username, string password)
         {
+            username=username.ToLower();
            var user=await _context.Users.FirstOrDefaultAsync(x=>x.UserName==username);
             if(user==null)
            return null;
-           if(! verifyPasswordHash(user.Salt,user.PasswordHash,password)){
+           if(! verifyPasswordHash(user.PasswordSalt,user.PasswordHash,password)){
                return null;
            }
             return user;
@@ -44,7 +45,7 @@ namespace DatingAppApi.Repository
             byte[] passwordHash,passwordSalt;
             CreatePasswordHash(password,out passwordHash,out passwordSalt);
             user.PasswordHash=passwordHash;
-            user.Salt=passwordSalt;
+            user.PasswordSalt=passwordSalt;
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
