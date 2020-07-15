@@ -18,6 +18,8 @@ import { MemberCardComponent } from './members/member-card/member-card.component
 import { JwtModule } from '@auth0/angular-jwt';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { PreventUnsavedChanges } from 'src/_guards/prevent-unsaved-changes.guard';
 export function tokenGetter(){
   return localStorage.getItem('token');
 };
@@ -37,7 +39,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     ListsComponent,
     MessagesComponent,
     MemberCardComponent,
-    MemberDetailComponent
+    MemberDetailComponent,
+    MemberEditComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,10 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     }),
     TabsModule.forRoot()
   ],
-  providers: [AuthService,ErrorInterceptorProvider,{ provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
+  providers: [AuthService,ErrorInterceptorProvider,
+    { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },
+    PreventUnsavedChanges
+
   ],
   bootstrap: [AppComponent]
 })

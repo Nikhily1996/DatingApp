@@ -18,6 +18,8 @@ constructor(private authSvc:AuthService){
   ngOnInit(): void {
     this.authSvc.User=this.jwtHelperService.decodeToken(
       localStorage.getItem("token")).unique_name;
+      this.authSvc.decodedToken=this.jwtHelperService.decodeToken(
+        localStorage.getItem("token"));
   }
   
 }
