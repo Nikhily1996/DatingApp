@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-4">
             <div class="card">
-                <img class="card-img-top img-thumbnail" src="{{user?.photoUrl}}" alt="{{user?.knownAs}}">
+                <img class="card-img-top img-thumbnail" src="{{mainPhotoUrl}}" alt="{{user?.knownAs}}">
                 <div class="card-body">
                             <div>
                                 <strong>Location:</strong>
@@ -58,8 +58,7 @@
               </form>
           </tab>
           <tab heading="Edit Photos">
-            <h4>Interests</h4>
-            <p>{{user.interests}}</p>
+            <app-photo-editor [photos]="user.photos" ></app-photo-editor>
           </tab>
         </tabset>
             </div>

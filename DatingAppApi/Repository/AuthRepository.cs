@@ -19,7 +19,7 @@ namespace DatingAppApi.Repository
         public async Task<User> Logging(string username, string password)
         {
             username=username.ToLower();
-           var user=await _context.Users.FirstOrDefaultAsync(x=>x.UserName==username);
+           var user=await _context.Users.Include(p=>p.Photos).FirstOrDefaultAsync(x=>x.UserName==username);
             if(user==null)
            return null;
            if(! verifyPasswordHash(user.PasswordSalt,user.PasswordHash,password)){

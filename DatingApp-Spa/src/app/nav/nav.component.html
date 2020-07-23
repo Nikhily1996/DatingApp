@@ -13,7 +13,8 @@
           </li>
       </ul>
       <div *ngIf="loggedin()" ngbDropdown class="dropdown">
-        <a class="dropdown-toggle text-light"  id="dropdownBasic1" ngbDropdownToggle>  Welcome {{authService.User|titlecase}}</a>
+        <span><img src="{{photoUrl}}" alt="" class="mr-2"></span>
+        <a class="dropdown-toggle text-light"  id="dropdownBasic1" ngbDropdownToggle>  Welcome {{authService.decodedToken.unique_name|titlecase}}</a>
         <div ngbDropdownMenu class="mt-3" aria-labelledby="dropdownBasic1">
           <a  [routerLink]="['/members/edit']" class="dropdown-item" ngbDropdownItem ><i class="fa fa-user"></i>Edit Profile</a> 
           <!-- <a></a>--will add links u can use buttons also instead of <a></a> -->

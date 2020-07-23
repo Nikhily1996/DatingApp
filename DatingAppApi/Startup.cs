@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Http;
 
 using System.Text;
 using AutoMapper;
+using DatingAppApi.Helper;
 
 namespace DatingAppApi
 {
@@ -43,6 +44,7 @@ namespace DatingAppApi
             services.AddControllers();
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddCors();
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddScoped<IAuthRepository,AuthRepository>();
             services.AddScoped<IDatingRepository,DatingRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(

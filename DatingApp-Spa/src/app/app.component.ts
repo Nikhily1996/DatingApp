@@ -16,10 +16,16 @@ constructor(private authSvc:AuthService){
 
 }
   ngOnInit(): void {
-    this.authSvc.User=this.jwtHelperService.decodeToken(
-      localStorage.getItem("token")).unique_name;
-      this.authSvc.decodedToken=this.jwtHelperService.decodeToken(
-        localStorage.getItem("token"));
+    const token= localStorage.getItem("token");
+    const currentUser= localStorage.getItem("user");
+    if(token){
+         this.authSvc.decodedToken=this.jwtHelperService.decodeToken(
+          token);
+    }
+        if(currentUser){
+          this.authSvc.CurrentUser=JSON.parse(currentUser);
+          this.authSvc.setCurrentMainPhoto(this.authSvc.CurrentUser.photoUrl);
+        }
   }
   
 }
