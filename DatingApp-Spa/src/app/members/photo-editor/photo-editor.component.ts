@@ -38,6 +38,11 @@ currentMain:Photo;
       if(response){
         const photo:Photo=JSON.parse(response);
         this.photos.push(photo);
+        if(photo.isMain){
+          this.AuthSvc.setCurrentMainPhoto(photo.url);
+          this.AuthSvc.CurrentUser.photoUrl=photo.url;
+          localStorage.setItem("user",JSON.stringify(this.AuthSvc.CurrentUser));
+        }
       }
     };
   }

@@ -3,9 +3,11 @@ import { NgModule } from '@angular/core';
 import {HttpClientModule} from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AuthService } from 'src/_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
@@ -22,6 +24,7 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { PreventUnsavedChanges } from 'src/_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
+import { DateAgoPipe } from 'src/_pipes/date-ago.pipe';
 export function tokenGetter(){
   return localStorage.getItem('token');
 };
@@ -43,7 +46,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     MemberCardComponent,
     MemberDetailComponent,
     MemberEditComponent,
-    PhotoEditorComponent
+    PhotoEditorComponent,
+    DateAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -53,6 +57,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     DatingRoutingModule,
     NgxGalleryModule,
     FileUploadModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    BsDatepickerModule.forRoot(),
     JwtModule.forRoot({
      config:{
        tokenGetter:tokenGetter,

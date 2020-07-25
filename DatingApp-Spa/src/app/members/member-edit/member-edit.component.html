@@ -10,7 +10,7 @@
         </div>
         <div class="col-sm-4">
             <div class="card">
-                <img class="card-img-top img-thumbnail" src="{{mainPhotoUrl}}" alt="{{user?.knownAs}}">
+                <img class="card-img-top img-thumbnail" src="{{mainPhotoUrl||'../../assets/userIcon.png'}}" alt="{{user?.knownAs}}">
                 <div class="card-body">
                             <div>
                                 <strong>Location:</strong>
@@ -22,11 +22,11 @@
                             </div>
                             <div>
                                 <strong>Last Active:</strong>
-                                <p>{{user.lastActive}}</p>
+                                <p>{{user.lastActive|dateAgo}}</p>
                             </div>
                             <div>
                                 <strong>Member Since:</strong>
-                                <p>{{user.created}}</p>
+                                <p>{{user.created|date:'mediumDate'}}</p>
                             </div>
                 </div>
                 <div class="card-footer" >
@@ -36,7 +36,7 @@
         </div>
         <div class="col-sm-8">
             <div class="tab-panel">
-                 <tabset class="member-tabset">
+         <tabset class="member-tabset">
           <tab heading="Edit Profile">
               <form #editForm="ngForm" (ngSubmit)="updateUser()" id="editForm">
                 <h4>Description</h4>
@@ -61,6 +61,7 @@
             <app-photo-editor [photos]="user.photos" ></app-photo-editor>
           </tab>
         </tabset>
+        <br>
             </div>
         </div>    
     </div>

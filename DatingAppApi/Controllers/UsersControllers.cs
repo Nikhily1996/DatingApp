@@ -10,9 +10,11 @@ using DatingAppApi.Repository;
 using AutoMapper;
 using DatingAppApi.Dtos;
 using System.Security.Claims;
+using DatingAppApi.Helper;
 
 namespace DatingAppApi.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
     [ApiController]
@@ -33,7 +35,7 @@ namespace DatingAppApi.Controllers
             var usersToReturn=_mapper.Map<IEnumerable<UserForListDto>>(users);
             return Ok(usersToReturn);
         }
-        [HttpGet("{id}")]
+        [HttpGet("{id}",Name="GetUser")]
         public async Task<IActionResult> GetUser(int id)
         {
             var user = await _repo.GetUser(id);

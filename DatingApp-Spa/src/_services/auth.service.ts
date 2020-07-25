@@ -35,7 +35,7 @@ export class AuthService {
     const InValidtoken=this.jwtHelperService.isTokenExpired(localStorage.getItem('token'));
     return !InValidtoken;
   }
-  register(model:any){
+  register(model:User){
     return this.http.post(this.baseUrl+'Register',model);
   }
 }
