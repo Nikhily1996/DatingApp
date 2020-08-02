@@ -25,6 +25,8 @@ import { PreventUnsavedChanges } from 'src/_guards/prevent-unsaved-changes.guard
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { FileUploadModule } from 'ng2-file-upload';
 import { DateAgoPipe } from 'src/_pipes/date-ago.pipe';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { ButtonsModule } from 'ngx-bootstrap/buttons';
 export function tokenGetter(){
   return localStorage.getItem('token');
 };
@@ -69,7 +71,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     } 
 
     }),
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    PaginationModule.forRoot(),
+    ButtonsModule.forRoot()
   ],
   providers: [AuthService,ErrorInterceptorProvider,
     { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig },

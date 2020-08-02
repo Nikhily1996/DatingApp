@@ -1,8 +1,11 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using DatingAppApi.Data;
+using DatingAppApi.Helper;
 using DatingAppApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DatingAppApi.Repository
 {
@@ -37,10 +40,26 @@ namespace DatingAppApi.Repository
             return user;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users=await _context.Users.Include(p=>p.Photos).ToListAsync();//"Include" will add photos data into the object returned
-            return users;//else photoUrl will be null , it will map based on key and add data
+            var users= _context.Users.Include(p=>p.Photos).
+            OrderByDescending(user=>user.LastActive).AsQueryable();//"Include" will add photos data into the object returned
+           users=users.Where(user=>user.Id!=userParams.UserId);
+           users=users.Where(user=>user.Gender.ToLower()==userParams.Gender);
+           if(userParams.MaxAge!=99||userParams.MinAge!=18){
+               var MaxDob=DateTime.Today.AddYears(-userParams.MinAge);
+               var minDob =DateTime.Today.AddYears(-userParams.MaxAge-1);
+               users=users.Where(user=>user.DateOfBirth<=MaxDob &&user.DateOfBirth>=minDob);
+           }
+           if(!String.IsNullOrEmpty(userParams.OrderBy) ){
+              switch(userParams.OrderBy){
+                  case "created": users= users.OrderByDescending(user=>user.Created);
+                                    break;
+                 default:users= users.OrderByDescending(user=>user.LastActive);
+                                    break;
+              } 
+           }
+            return await PagedList<User>.CreateAsync(users,userParams.PageNumber,userParams.PageSize);//else photoUrl will be null , it will map based on key and add data
         }
 
         public async Task<bool> SaveAll()

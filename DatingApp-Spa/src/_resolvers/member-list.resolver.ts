@@ -9,15 +9,14 @@ import { catchError } from 'rxjs/operators';
     providedIn: 'root'
   })
   export class MemberListResolver implements Resolve<User[]>{
-      /**
-       *
-       */
+      pageNumber=1;
+      pageSize=5;
       constructor(private userSvc:UserService,private alertSvc:AlertsService ,private router:Router) {
           
           
       }
     resolve(route:ActivatedRouteSnapshot): Observable<User[]> {
-      return  this.userSvc.getUsers().pipe(
+      return  this.userSvc.getUsers(this.pageNumber,this.pageSize).pipe(
           catchError(error=>{
               this.alertSvc.error('problem in getting member list');
               this.router.navigate(['/list']);
