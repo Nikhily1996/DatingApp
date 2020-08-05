@@ -28,6 +28,11 @@ namespace DatingAppApi.Repository
             _context.Remove(entity);
         }
 
+        public async Task<Like> GetLike(int userId, int receptientId)
+        {
+         return await  _context.Likes.FirstOrDefaultAsync(u=>u.LikerId==userId&&u.LikeeId==receptientId);
+        }
+
         public async Task<Photo> GetPhoto(int id)
         {
            var photo=await _context.Photos.FirstOrDefaultAsync(p=>p.Id==id);
@@ -46,6 +51,15 @@ namespace DatingAppApi.Repository
             OrderByDescending(user=>user.LastActive).AsQueryable();//"Include" will add photos data into the object returned
            users=users.Where(user=>user.Id!=userParams.UserId);
            users=users.Where(user=>user.Gender.ToLower()==userParams.Gender);
+           if(userParams.Likers){
+               var userLikers=await GetUserLikes(userParams.UserId,userParams.Likers);
+               users=users.Where(u=>userLikers.Contains(u.Id));
+           }
+           if(userParams.Likees){
+                  var userLikees=await GetUserLikes(userParams.UserId,userParams.Likers);
+                 users=users.Where(u=>userLikees.Contains(u.Id));
+
+           }
            if(userParams.MaxAge!=99||userParams.MinAge!=18){
                var MaxDob=DateTime.Today.AddYears(-userParams.MinAge);
                var minDob =DateTime.Today.AddYears(-userParams.MaxAge-1);
@@ -61,7 +75,17 @@ namespace DatingAppApi.Repository
            }
             return await PagedList<User>.CreateAsync(users,userParams.PageNumber,userParams.PageSize);//else photoUrl will be null , it will map based on key and add data
         }
+        private async Task<IEnumerable<int>> GetUserLikes(int id,bool likers){
+            var user=await _context.Users
+            .Include(x=>x.Likers).Include(x=>x.Likees).FirstOrDefaultAsync(u=>u.Id==id);
+            if(likers){
+                return user.Likers.Where(x=>x.LikeeId==id).Select(i=>i.LikerId);//select will help us to retrun 
+                //what is selected or else we  will send users collection instead of int collection
+            }else{
+                  return user.Likees.Where(x=>x.LikerId==id).Select(i=>i.LikeeId);
+            }
 
+        }
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync()>0;

@@ -11,6 +11,7 @@ import { MemberListResolver } from 'src/_resolvers/member-list.resolver';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { MemberEditResolver } from 'src/_resolvers/member-edit.resolver';
 import { PreventUnsavedChanges } from 'src/_guards/prevent-unsaved-changes.guard';
+import { ListsResolver } from 'src/_resolvers/lists.resolver';
 
 const routes:Routes=[
   {path:'', component:HomeComponent},
@@ -31,7 +32,9 @@ const routes:Routes=[
     resolve:{
       user:MemberDetailResolver
     }},
-    {path:'lists', component:ListsComponent}
+    {path:'lists', component:ListsComponent,resolve:{
+      users:ListsResolver
+    }}
   ]}
   ,
   {path:'**', redirectTo:'',pathMatch:'full'}
