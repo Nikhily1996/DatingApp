@@ -90,5 +90,48 @@ namespace DatingAppApi.Repository
         {
             return await _context.SaveChangesAsync()>0;
         }
+
+        public async Task<Message> GetMessage(int id)
+        {
+            return await _context.Messages.
+            FirstOrDefaultAsync(m=>m.Id==id);
+        }
+
+        public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
+        {
+            var messages= _context.Messages.
+            Include(u=>u.Sender).ThenInclude(p=>p.Photos).
+            Include(u=>u.Recipient).ThenInclude(p=>p.Photos).AsQueryable();
+            switch(messageParams.MessageContainer){
+                case "Inbox":
+                messages=messages.Where(user=>user.RecipientId==messageParams.UserId
+                &&user.RecipientDeleted==false);
+                break;
+                case "Outbox":
+                messages=messages.Where(user=>user.SenderId==messageParams.UserId
+                 &&user.SenderDeleted==false);
+                break;
+                default:
+                 messages=messages.Where(user=>user.RecipientId==messageParams.UserId
+                 &&user.RecipientDeleted==false&&user.IsRead==false);
+                break;
+
+            }
+            messages=messages.OrderByDescending(m=>m.MessageSent);
+            return await PagedList<Message>.
+            CreateAsync(messages,messageParams.PageNumber,messageParams.PageSize);
+
+        }
+
+        public async Task<IEnumerable<Message>> GetMessageThread(int userId, int receptientId)
+        {
+              var messages= await _context.Messages.
+            Include(u=>u.Sender).ThenInclude(p=>p.Photos).
+            Include(u=>u.Recipient).ThenInclude(p=>p.Photos).
+            Where(u =>u.SenderId==userId&&u.SenderDeleted==false&&u.RecipientId==receptientId||
+                  u.RecipientId==userId&& u.RecipientDeleted==false &&u.SenderId==receptientId).
+                  OrderByDescending(m =>m.MessageSent).ToListAsync();
+           return messages;
+        }
     }
 }

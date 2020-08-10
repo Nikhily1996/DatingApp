@@ -27,6 +27,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { DateAgoPipe } from 'src/_pipes/date-ago.pipe';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { ButtonsModule } from 'ngx-bootstrap/buttons';
+import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
 export function tokenGetter(){
   return localStorage.getItem('token');
 };
@@ -49,7 +50,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     MemberDetailComponent,
     MemberEditComponent,
     PhotoEditorComponent,
-    DateAgoPipe
+    DateAgoPipe,
+    MemberMessagesComponent
   ],
   imports: [
     BrowserModule,
