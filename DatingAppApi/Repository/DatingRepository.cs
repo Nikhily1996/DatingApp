@@ -41,13 +41,13 @@ namespace DatingAppApi.Repository
 
         public async Task<User> GetUser(int id)
         {
-            var user=await _context.Users.Include(p=>p.Photos).FirstOrDefaultAsync(user=>user.Id==id);
+            var user=await _context.Users.FirstOrDefaultAsync(user=>user.Id==id);
             return user;
         }
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users= _context.Users.Include(p=>p.Photos).
+            var users= _context.Users.
             OrderByDescending(user=>user.LastActive).AsQueryable();//"Include" will add photos data into the object returned
            users=users.Where(user=>user.Id!=userParams.UserId);
            users=users.Where(user=>user.Gender.ToLower()==userParams.Gender);
@@ -77,7 +77,7 @@ namespace DatingAppApi.Repository
         }
         private async Task<IEnumerable<int>> GetUserLikes(int id,bool likers){
             var user=await _context.Users
-            .Include(x=>x.Likers).Include(x=>x.Likees).FirstOrDefaultAsync(u=>u.Id==id);
+          .FirstOrDefaultAsync(u=>u.Id==id);
             if(likers){
                 return user.Likers.Where(x=>x.LikeeId==id).Select(i=>i.LikerId);//select will help us to retrun 
                 //what is selected or else we  will send users collection instead of int collection
@@ -100,8 +100,7 @@ namespace DatingAppApi.Repository
         public async Task<PagedList<Message>> GetMessagesForUser(MessageParams messageParams)
         {
             var messages= _context.Messages.
-            Include(u=>u.Sender).ThenInclude(p=>p.Photos).
-            Include(u=>u.Recipient).ThenInclude(p=>p.Photos).AsQueryable();
+           AsQueryable();
             switch(messageParams.MessageContainer){
                 case "Inbox":
                 messages=messages.Where(user=>user.RecipientId==messageParams.UserId
@@ -126,8 +125,7 @@ namespace DatingAppApi.Repository
         public async Task<IEnumerable<Message>> GetMessageThread(int userId, int receptientId)
         {
               var messages= await _context.Messages.
-            Include(u=>u.Sender).ThenInclude(p=>p.Photos).
-            Include(u=>u.Recipient).ThenInclude(p=>p.Photos).
+           
             Where(u =>u.SenderId==userId&&u.SenderDeleted==false&&u.RecipientId==receptientId||
                   u.RecipientId==userId&& u.RecipientDeleted==false &&u.SenderId==receptientId).
                   OrderByDescending(m =>m.MessageSent).ToListAsync();

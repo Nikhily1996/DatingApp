@@ -18,7 +18,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Diagnostics;
 using System.Net;
 using Microsoft.AspNetCore.Http;
-
 using System.Text;
 using AutoMapper;
 using DatingAppApi.Helper;
@@ -33,14 +32,26 @@ namespace DatingAppApi
         }
 
         public IConfiguration Configuration { get; }
+          public void ConfigureDevelopmentServices(IServiceCollection services){
+             services.AddDbContext<DataContext>(x =>
+                        {   x.UseLazyLoadingProxies();
+                            x.UseSqlite(Configuration.GetConnectionString("DefaultConnection"));
+                        });
+                ConfigureServices(services);
+          }
+
+           public void ConfigureProductionServices(IServiceCollection services){
+               Console.WriteLine("in production enviromenment");
+                services.AddDbContext<DataContext>(x =>
+                        {    x.UseLazyLoadingProxies();
+                            x.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+                        });
+                ConfigureServices(services);
+          }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x =>
-        {
-            x.UseSqlite("Data Source=C:\\Development\\DatingAppApi\\mydb.db;");
-        })        ;
             services.AddControllers();
             services.AddAutoMapper(typeof(DatingRepository).Assembly);
             services.AddCors();
@@ -81,10 +92,13 @@ namespace DatingAppApi
             app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapFallbackToController("Index","Fallback");
             });
         }
     }
