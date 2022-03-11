@@ -22,7 +22,7 @@ namespace DatingAppApi
               try{
                   var context=Services.GetRequiredService<DataContext>();
                   context.Database.Migrate();//create db if it does not exist
-                  Seed.SeedUsers(context);
+                 // Seed.SeedUsers(context);
                   
               }catch(Exception e){
                   var logger=Services.GetRequiredService<ILogger<Program>>();

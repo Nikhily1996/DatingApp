@@ -67,9 +67,6 @@ export class CustomHammerConfig extends HammerGestureConfig  {
     JwtModule.forRoot({
      config:{
        tokenGetter:tokenGetter,
-       whitelistedDomains:['localhost:5000'],
-       blacklistedRoutes:['localhost:5000/api/auth']
-    
     } 
 
     }),

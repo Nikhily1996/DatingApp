@@ -85,10 +85,12 @@ namespace DatingAppApi
                     });
                 });
             }
-
-           // app.UseHttpsRedirection();
+               app.UseDeveloperExceptionPage();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
+            
+               
             app.UseCors(x=>x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseAuthentication();
             app.UseAuthorization();

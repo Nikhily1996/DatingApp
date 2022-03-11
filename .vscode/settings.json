@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/ccf18cea-ad7f-44fd-ad90-fec826dd1f64/resourceGroups/DatingApp/providers/Microsoft.Web/sites/nikhilDating",
+    "appService.deploySubpath": "DatingAppApi\\bin\\Release\\netcoreapp3.0\\publish"
+}

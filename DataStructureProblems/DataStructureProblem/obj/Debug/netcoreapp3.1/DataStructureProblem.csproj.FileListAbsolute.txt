@@ -1,0 +1,13 @@
+C:\Development\DataStructureProblems\DataStructureProblem\bin\Debug\netcoreapp3.1\DataStructureProblem.exe
+C:\Development\DataStructureProblems\DataStructureProblem\bin\Debug\netcoreapp3.1\DataStructureProblem.deps.json
+C:\Development\DataStructureProblems\DataStructureProblem\bin\Debug\netcoreapp3.1\DataStructureProblem.runtimeconfig.json
+C:\Development\DataStructureProblems\DataStructureProblem\bin\Debug\netcoreapp3.1\DataStructureProblem.runtimeconfig.dev.json
+C:\Development\DataStructureProblems\DataStructureProblem\bin\Debug\netcoreapp3.1\DataStructureProblem.dll
+C:\Development\DataStructureProblems\DataStructureProblem\bin\Debug\netcoreapp3.1\DataStructureProblem.pdb
+C:\Development\DataStructureProblems\DataStructureProblem\obj\Debug\netcoreapp3.1\DataStructureProblem.csprojAssemblyReference.cache
+C:\Development\DataStructureProblems\DataStructureProblem\obj\Debug\netcoreapp3.1\DataStructureProblem.AssemblyInfoInputs.cache
+C:\Development\DataStructureProblems\DataStructureProblem\obj\Debug\netcoreapp3.1\DataStructureProblem.AssemblyInfo.cs
+C:\Development\DataStructureProblems\DataStructureProblem\obj\Debug\netcoreapp3.1\DataStructureProblem.csproj.CoreCompileInputs.cache
+C:\Development\DataStructureProblems\DataStructureProblem\obj\Debug\netcoreapp3.1\DataStructureProblem.dll
+C:\Development\DataStructureProblems\DataStructureProblem\obj\Debug\netcoreapp3.1\DataStructureProblem.pdb
+C:\Development\DataStructureProblems\DataStructureProblem\obj\Debug\netcoreapp3.1\DataStructureProblem.genruntimeconfig.cache
